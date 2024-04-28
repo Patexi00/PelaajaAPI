@@ -1,6 +1,10 @@
 from pydantic import BaseModel
 from typing import List
 
+events = []
+
+types = ['level_started', 'level_solved']
+
 class Event(BaseModel):
     id: int
     type: str

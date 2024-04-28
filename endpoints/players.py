@@ -1,12 +1,12 @@
 
 from fastapi import APIRouter, status, HTTPException
-from models import Playerbase, PlayerDB, PlayerPost
+from models import Playerbase, PlayerDB, PlayerPost, EventDB2, types
 
 router = APIRouter()
 
 players = []
 
-@router.post("/players", status_code=status.HTTP_201_CREATED, response_model=PlayerPost)
+@router.post("/players", status_code=201, response_model=PlayerPost)
 def create_player(player_in: Playerbase):
   global id_counter
   if not players:
@@ -30,3 +30,18 @@ def get_player(id: int):
     if indexi == -1:
         raise HTTPException(detail="Player not found", status_code=404)
     return players[indexi]
+
+@router.get('/players/{id}/events', response_model=list[EventDB2], status_code=201)
+def get_playerevents(id: int, type: str = None):
+    player = get_player(id)
+    player_events = [dict(event) for event in player['events']]
+
+    if type not in types and not None:
+        raise HTTPException(status_code=400, detail="Invalid event type")
+
+    if type:
+        events_by_type = [
+            event for event in player_events if event ['type'] == type
+        ]
+        player_events = events_by_type
+    return player_events
