@@ -36,7 +36,7 @@ def get_playerevents(id: int, type: str = None):
     player = get_player(id)
     player_events = [dict(event) for event in player['events']]
 
-    if type not in types and not None:
+    if type is not None and type not in types:
         raise HTTPException(status_code=400, detail="Invalid event type")
 
     if type:
