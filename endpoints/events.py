@@ -8,7 +8,7 @@ router = APIRouter()
 
 
 
-@router.post('/players/{id}/events', status_code=201, response_model=EventDB2)
+@router.post('/players/{id}/events', status_code=201, response_model=EventDB2)      #Luo uusi eventti pelaajalle ID:n perusteella
 def create_events(id: int, event_in: EventInSpec):
     global event_counter
     player = get_player(id)
@@ -28,7 +28,7 @@ def create_events(id: int, event_in: EventInSpec):
 
     return event
 
-@router.get('/events', response_model=list[EventDB2],status_code=200)
+@router.get('/events', response_model=list[EventDB2],status_code=200)               #Hae kaikki kirjatut eventit, mahdollista suorittaa filtteröinti event-tyypin mukaan. ("level_started" tai "level_solved")
 def get_all_events(type: str = None):
    if type is not None and type not in types:
       raise HTTPException(status_code=400, detail="Invalid event type")

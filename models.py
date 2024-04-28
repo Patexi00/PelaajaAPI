@@ -1,9 +1,9 @@
 from pydantic import BaseModel
 from typing import List
 
-events = []
+events = []                                 #Tyhjä event lista
 
-types = ['level_started', 'level_solved']
+types = ['level_started', 'level_solved']   #Sallitut event-tyypit
 
 class Event(BaseModel):
     id: int
